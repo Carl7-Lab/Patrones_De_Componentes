@@ -13,35 +13,18 @@ const useShoppingCard = () => {
     count: number;
     product: Product;
   }) => {
-    // console.log(count, product);
+    console.log({ count });
     setShoppingCart((oldShoppingCart) => {
-      const productInCart: ProductInCart = oldShoppingCart[product.id] || {
-        ...product,
-        count: 0,
-      };
-
-      if (Math.max(productInCart.count + count, 0) > 0) {
-        productInCart.count += count;
-        return {
-          ...oldShoppingCart,
-          [product.id]: productInCart,
-        };
+      if (count === 0) {
+        const { [product.id]: deletedProduct, ...updatedShoppingCart } =
+          oldShoppingCart;
+        return updatedShoppingCart;
       }
 
-      const { [product.id]: deletedProduct, ...updatedShoppingCart } =
-        oldShoppingCart;
-      return updatedShoppingCart;
-
-      // if (count === 0) {
-      //   const { [product.id]: deletedProduct, ...updatedShoppingCart } =
-      //     oldShoppingCart;
-      //   return updatedShoppingCart;
-      // }
-
-      // return {
-      //   ...oldShoppingCart,
-      //   [product.id]: { ...product, count },
-      // };
+      return {
+        ...oldShoppingCart,
+        [product.id]: { ...product, count },
+      };
     });
   };
 
